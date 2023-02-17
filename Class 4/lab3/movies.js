@@ -1,5 +1,3 @@
-//TODO EXPORT AND IMPLEMENT THE FOLLOWING FUNCTIONS IN ES6 FORMAT
-//Movie data link: https://gist.githubusercontent.com/jdelrosa/78dfa36561d5c06f7e62d8cce868cf8e/raw/2292be808f74c9486d4085bdbc2025bab84d462b/movies.json
 import * as helper from "./helpers.js";
 
 const findMoviesByDirector = async (directorName) => {
@@ -11,7 +9,7 @@ const findMoviesByDirector = async (directorName) => {
     let movieList = [];
 
     for (let movie of movies) {
-        if (movie["director"].toLowerCase() === directorName)
+        if (movie["director"].trim().toLowerCase() === directorName)
             movieList.push(movie);
     }
     if (movieList.length === 0)
@@ -30,7 +28,8 @@ const findMoviesByCastMember = async (castMemberName) => {
     for (let movie of movies) {
         // Casting movies to lower case
         let lowerCast = [];
-        for (let cast of movie["cast"]) lowerCast.push(cast.toLowerCase());
+        for (let cast of movie["cast"])
+            lowerCast.push(cast.trim().toLowerCase());
         if (lowerCast.includes(castMemberName)) movieList.push(movie);
     }
     if (movieList.length === 0)
@@ -67,7 +66,7 @@ const getMovieById = async (id) => {
     if (!helper.isValidString(id)) throw "The id is not valid";
     id = id.trim();
     let movies = await helper.getMovies();
-    for (let movie of movies) if (movie.id == id) return movie;
+    for (let movie of movies) if (movie.id.trim() == id) return movie;
     throw "Error: Movie not found";
 };
 
