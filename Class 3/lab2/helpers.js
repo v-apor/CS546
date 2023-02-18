@@ -66,6 +66,7 @@ function compareObject(o1, o2) {
         return false;
     }
     for (const k of k1) {
+        // console.log(o1[k], o2[k]);
         const v1 = o1[k];
         const v2 = o2[k];
         const areObjects = isObject(v1) && isObject(v2);

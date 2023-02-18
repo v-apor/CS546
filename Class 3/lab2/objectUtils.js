@@ -13,6 +13,7 @@ let areObjectsEqual = (...args) => {
     let result = true;
     for (let i = 0; i < args.length - 1; i++) {
         result = result && helper.compareObject(args[i], args[i + 1]);
+        // console.log(args[i], args[i + 1]);
         if (result === false) return false;
     }
     return true;
