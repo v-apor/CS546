@@ -1,0 +1,16 @@
+{
+    "name": "cs-546-lab-4",
+    "version": "1.0.0",
+    "description": "Scripts for lab4",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js"
+    },
+    "author": "Apoorv Chandrakar 20015515",
+    "license": "MIT",
+    "dependencies": {
+        "mongodb": "^5.0.1"
+    }
+}
