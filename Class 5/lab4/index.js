@@ -19,7 +19,7 @@ try {
         ],
         1965
     );
-    // console.log(band);
+    console.log(band);
 } catch (e) {
     console.log(e);
 }
@@ -46,35 +46,43 @@ try {
     console.log(e);
 }
 
-// try {
-//     let id = test_id; // FOR TESTING! REMOVE LATER!!!!
-//     const bandId = await bands.get(id); // FOR TESTING!! PROVIDE string ID later
-//     console.log(bandId);
-// } catch (e) {
-//     console.log(e);
-// }
-
-// try {
-//     const bandId = await bands.get("146175cdbfce3da117ad3943");
-//     console.log(bandId);
-// } catch (e) {
-//     console.log(e);
-// }
-
 try {
     let id = test_id; // FOR TESTING! REMOVE LATER!!!!
-    const bandId = await bands.remove(id);
+    const bandId = await bands.get(id); // FOR TESTING!! PROVIDE string ID later
+    console.log(bandId);
+} catch (e) {
+    console.log(e);
+}
+
+try {
+    const bandId = await bands.get("146175cdbfce3da117ad3943");
     console.log(bandId);
 } catch (e) {
     console.log(e);
 }
 
 // try {
-//     const allBands = await bands.getAll();
-//     console.log(allBands);
+//     let id = test_id; // FOR TESTING! REMOVE LATER!!!!
+//     const bandId = await bands.remove(id);
+//     console.log(bandId);
 // } catch (e) {
 //     console.log(e);
 // }
+
+try {
+    const allBands = await bands.getAll();
+    console.log(allBands);
+} catch (e) {
+    console.log(e);
+}
+
+try {
+    let id = test_id; // FOR TESTING! REMOVE LATER!!!!
+    const renamedBand = await bands.rename(id, "pat RoCkERS  ");
+    console.log(renamedBand);
+} catch (e) {
+    console.log(e);
+}
 
 try {
     let id = test_id; // FOR TESTING! REMOVE LATER!!!!
@@ -84,10 +92,10 @@ try {
     console.log(e);
 }
 
-// try {
-//     const allBands = await bands.getAll();
-//     console.log(allBands);
-// } catch (e) {
-//     console.log(e);
-// }
+try {
+    const allBands = await bands.getAll();
+    console.log(allBands);
+} catch (e) {
+    console.log(e);
+}
 await closeConnection();
