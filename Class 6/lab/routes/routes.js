@@ -16,20 +16,21 @@ const router = Router();
 const aboutme = {
     firstName: "Apoorv",
     lastName: "Chandrakar",
-    biography: "All I wanna be\nIs everything at once'",
+    biography:
+        "While specialization is cool, I'd love to know about everything.\nAll I wanna be\nIs everything at once",
     favoriteMovies: [
         "Interstellar",
         "Harry Potter",
-        "Schindlers List",
+        "Eternal Sunshine of the Spotless Mind",
         "A Beautiful Mind",
     ],
     hobbies: ["Football", "Piano", "Running"],
-    fondestMemory: "Error 404",
+    fondestMemory: "Playing football with friends after school.",
 };
 
 const mystory = {
-    storyTitle: "Same Ol Story Book",
-    storyGenre: "Reality, Life",
+    storyTitle: "Legend of a Legend",
+    storyGenre: "Non-Fiction",
     story: "Once upon a time.\nThere was a Hero.\nHe died.",
 };
 
