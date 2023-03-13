@@ -3,6 +3,7 @@
 import * as bandFunctions from "./bands.js";
 import { albums, bands } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
+import * as helper from "../helpers.js";
 
 const create = async (bandId, title, releaseDate, tracks, rating) => {
     const newAlbum = {
@@ -25,16 +26,18 @@ const create = async (bandId, title, releaseDate, tracks, rating) => {
 
     const bandCollection = await bands();
     var band = await bandFunctions.get(bandId);
-    band.overallRating =
-        (band.overallRating * band.albums.length + rating) /
-        (band.albums.length + 1);
     band.albums.push(album);
 
     const filter = { _id: new ObjectId(bandId) };
-    const updateDoc = {
+    var updateDoc = {
         $set: { albums: band.albums, overallRating: band.overallRating },
     };
-    const updateInfo = await bandCollection.updateOne(filter, updateDoc);
+    var updateInfo = await bandCollection.updateOne(filter, updateDoc);
+    const overallRating = await helper.getRating(bandId);
+    updateDoc = {
+        $set: { overallRating: overallRating },
+    };
+    updateInfo = await bandCollection.updateOne(filter, updateDoc);
 
     return album;
 };
@@ -70,6 +73,13 @@ const remove = async (albumId) => {
         { _id: bandId },
         { $pull: { albums: { _id: albumId } } }
     );
+
+    const filter = { _id: new ObjectId(bandId) };
+    const overallRating = await helper.getRating(bandId);
+    const updateDoc = {
+        $set: { overallRating: overallRating },
+    };
+    const updateInfo = await bandCollection.updateOne(filter, updateDoc);
 
     return bandFunctions.get(bandId);
 };
