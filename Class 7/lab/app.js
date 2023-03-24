@@ -11,17 +11,18 @@ app.listen(3000, () => {
 });
 
 // import { dbConnection, closeConnection } from "./config/mongoConnection.js";
-// import * as bands from "./data/bands.js";
-// import * as albums from "./data/albums.js";
+// import * as bandFunctions from "./data/bands.js";
+// import * as albumFunctions from "./data/albums.js";
 
 // async function main() {
 //     const db = await dbConnection();
 //     await db.dropDatabase();
-//     var toRemove = "";
+
+//     var pinkId = "";
 //     try {
-//         const band = await bands.create(
+//         const band = await bandFunctions.create(
 //             "Pink Floyd",
-//             ["Progressive Rock", "Psychedelic rock", "Classic Rock"],
+//             ["Progressive Rock", "Psychedelic Rock", "Classic Rock"],
 //             "http://www.pinkfloyd.com",
 //             "EMI",
 //             [
@@ -33,87 +34,120 @@ app.listen(3000, () => {
 //             ],
 //             1965
 //         );
-//         toRemove = band._id;
+//         pinkId = band._id;
 //         console.log(band);
 //     } catch (e) {
 //         console.log(e);
 //     }
 
-//     // try {
-//     //     const band = await bands.create(
-//     //         "Dank Loyd",
-//     //         ["Progressive Rock", "Psychedelic rock", "Classic Rock"],
-//     //         "http://www.pinkfloyd.com",
-//     //         "EMI",
-//     //         [
-//     //             "Roger Waters",
-//     //             "David Gilmour",
-//     //             "Nick Mason",
-//     //             "Richard Wright",
-//     //             "Sid Barrett",
-//     //         ],
-//     //         2011
-//     //     );
-//     //     console.log(band);
-//     // } catch (e) {
-//     //     console.log(e);
-//     // }
-
-//     // try {
-//     //     const band = await bands.getAll();
-//     //     console.log(band);
-//     // } catch (e) {
-//     //     console.log(e);
-//     // }
-
-//     // var toUpdate = toRemove;
-//     // try {
-//     //     const band = await bands.update(
-//     //         toUpdate,
-//     //         "Pink Floyd Updated",
-//     //         ["Oppressive Rock", "Awake rock", "Modern Rock"],
-//     //         "http://www.pinkfloyd.com",
-//     //         "EMI",
-//     //         [
-//     //             "Roger Waters",
-//     //             "David Gilmour",
-//     //             "Nick Mason",
-//     //             "Richard Wright",
-//     //             "Sid Barrett",
-//     //         ],
-//     //         1965
-//     //     );
-//     //     console.log(band);
-//     // } catch (e) {
-//     //     console.log(e);
-//     // }
-
-//     // try {
-//     //     const band = await bands.remove(toRemove);
-//     //     console.log(band);
-//     // } catch (e) {
-//     //     console.log(e);
-//     // }
-
+//     var lpId = "";
 //     try {
-//         const album = await albums.create(
-//             toRemove,
-//             "Metallica",
-//             2011,
-//             ["numb", "in the end"],
-//             5
+//         const band = await bandFunctions.create(
+//             "Linking Park",
+//             [
+//                 "Alternative rock",
+//                 "nu metal",
+//                 "alternative metal",
+//                 "rap",
+//                 "rock",
+//                 "electronic rock",
+//                 "pop rock",
+//             ],
+//             "http://www.linkinpark.com/",
+//             "Warner",
+//             [
+//                 "Chester Bennington",
+//                 "Mike Shinoda",
+//                 "Brad Delson",
+//                 "Rob Bourdon",
+//                 "Joe Hahn",
+//                 "Dave Farrell",
+//             ],
+//             1996
 //         );
-//         console.log(album);
+//         console.log(band);
+//         lpId = band._id;
 //     } catch (e) {
 //         console.log(e);
 //     }
 
 //     try {
-//         const album = await albums.create(
-//             toRemove,
-//             "Hybrid Theory",
-//             2014,
-//             ["Catalyst", "What I've done"],
+//         const band = await bandFunctions.getAll();
+//         console.log(band);
+//     } catch (e) {
+//         console.log(e);
+//     }
+
+//     try {
+//         const band = await bandFunctions.get(pinkId);
+//         console.log(band);
+//     } catch (e) {
+//         console.log(e);
+//     }
+
+//     try {
+//         const band = await bandFunctions.update(
+//             lpId,
+//             "Linking Park",
+//             [
+//                 "Alternative rock",
+//                 "nu metal",
+//                 "alternative metal",
+//                 "rap",
+//                 "rock",
+//                 "electronic rock",
+//                 "pop rock",
+//             ],
+//             "http://www.linkinpark.com/",
+//             "Warner",
+//             [
+//                 "Mike Shinoda",
+//                 "Brad Delson",
+//                 "Rob Bourdon",
+//                 "Joe Hahn",
+//                 "Dave Farrell",
+//             ],
+//             1996
+//         );
+//         console.log(band);
+//     } catch (e) {
+//         console.log(e);
+//     }
+
+//     try {
+//         const band = await bandFunctions.remove(pinkId);
+//         console.log(band);
+//     } catch (e) {
+//         console.log(e);
+//     }
+
+//     var albumId = "";
+//     try {
+//         const album = await albumFunctions.create(
+//             lpId,
+//             "Wish You Were Here",
+//             "09/12/2000",
+//             [
+//                 "Shine On You Crazy Diamond, Pts. 1-5",
+//                 "Welcome to the Machine",
+//                 "Have a Cigar (Ft. Roy Harper)",
+//                 "Wish You Were Here",
+//                 "Shine On You Crazy Diamond, Pts. 6-9",
+//             ],
+//             5
+//         );
+//         console.log(album);
+//         albumId = album._id;
+//     } catch (e) {
+//         console.log(e);
+//     }
+
+//     try {
+//         const album = await albumFunctions.create(
+//             lpId,
+//             "Wish You Were NOT Here",
+//             "09/12/2006",
+//             ["Song 1", "Song 2"],
 //             4
 //         );
 //         console.log(album);
@@ -121,36 +155,34 @@ app.listen(3000, () => {
 //         console.log(e);
 //     }
 
-//     var albumId = "";
 //     try {
-//         const album = await albums.getAll(toRemove);
-//         albumId = album[0]._id;
-//         // console.log(albumId, "~~~");
-//         // console.log(album);
-//     } catch (e) {
-//         console.log(e);
-//     }
-
-//     try {
-//         const band = await bands.getAll();
-//         console.log(band);
-//     } catch (e) {
-//         console.log(e);
-//     }
-
-//     try {
-//         const album = await albums.remove(albumId);
+//         const album = await albumFunctions.getAll(lpId);
 //         console.log(album);
 //     } catch (e) {
 //         console.log(e);
 //     }
 
 //     try {
-//         const band = await bands.getAll();
-//         console.log(band);
+//         const album = await albumFunctions.getAll(lpId);
+//         console.log(album);
 //     } catch (e) {
 //         console.log(e);
 //     }
+
+//     try {
+//         const album = await albumFunctions.get(albumId);
+//         console.log(album);
+//     } catch (e) {
+//         console.log(e);
+//     }
+
+//     try {
+//         const album = await albumFunctions.remove(albumId);
+//         console.log(album);
+//     } catch (e) {
+//         console.log(e);
+//     }
+
 //     await closeConnection();
 // }
 
