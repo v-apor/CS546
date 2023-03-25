@@ -17,6 +17,7 @@ router
     })
     .post(async (req, res) => {
         const body = req.body;
+        console.log(body);
         const newBand = await bands.create(
             body.name,
             body.genre,
