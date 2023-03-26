@@ -22,13 +22,19 @@ const create = async (
             yearBandWasFormed
         )
     ) {
-        throw new Error("All fields are required");
+        const error = new Error();
+        error.msg = "All fields are required";
+        error.code = 400;
+
+        throw error;
     }
 
     if (!helper.isValidArray(genre, groupMembers)) {
-        throw new Error(
-            "genre and groupMembers must be a valid non-empty array."
-        );
+        const error = new Error();
+        error.msg = "genre and groupMembers must be a valid non-empty array.";
+        error.code = 400;
+
+        throw error;
     }
 
     if (
@@ -40,15 +46,21 @@ const create = async (
             recordCompany
         )
     ) {
-        throw new Error(
-            "Name, website, recordCompany, all genres and all group members must be non-empty strings"
-        );
+        const error = new Error();
+        error.msg =
+            "Name, website, recordCompany, all genres and all group members must be non-empty strings";
+        error.code = 400;
+
+        throw error;
     }
 
     if (!/^http:\/\/www\.[\w-]{5,}\.com$/.test(website)) {
-        throw new Error(
-            "Website must be a valid format and have at least 5 characters in-between http://www. and .com"
-        );
+        const error = new Error();
+        error.msg =
+            "Website must be a valid format and have at least 5 characters in-between http://www. and .com";
+        error.code = 400;
+
+        throw error;
     }
 
     if (
@@ -57,9 +69,12 @@ const create = async (
         yearBandWasFormed < 1900 ||
         yearBandWasFormed > new Date().getFullYear()
     ) {
-        throw new Error(
-            "Year band was formed must be a number between 1900 and the current year (2023)"
-        );
+        const error = new Error();
+        error.msg =
+            "Year band was formed must be a number between 1900 and the current year (2023)";
+        error.code = 400;
+
+        throw error;
     }
 
     let newBand = {
@@ -76,8 +91,13 @@ const create = async (
     const bandCollection = await bands();
     const insertInfo = await bandCollection.insertOne(newBand);
 
-    if (!insertInfo.acknowledged || !insertInfo.insertedId)
-        throw new Error("Could not add the band");
+    if (!insertInfo.acknowledged || !insertInfo.insertedId) {
+        const error = new Error();
+        error.msg = "Could not add the band";
+        error.code = 400;
+
+        throw error;
+    }
 
     const newId = insertInfo.insertedId.toString();
 
@@ -88,7 +108,13 @@ const create = async (
 const getAll = async () => {
     const bandCollection = await bands();
     let bandList = await bandCollection.find({}).toArray();
-    if (!bandList) throw new Error("Could not get all bands");
+    if (!bandList) {
+        const error = new Error();
+        error.msg = "Could not get all bands";
+        error.code = 400;
+
+        throw error;
+    }
     bandList = bandList.map((element) => {
         element._id = element._id.toString();
         return element;
@@ -97,24 +123,60 @@ const getAll = async () => {
 };
 
 const get = async (id) => {
-    if (!helper.exists(id)) throw new Error("No id provided");
-    if (!helper.isValidString(id))
-        throw new Error("id must be a non-empty string");
-    if (!ObjectId.isValid(id)) throw new Error("Invalid ObjectId provided");
+    if (!helper.exists(id)) {
+        const error = new Error();
+        error.msg = "No id provided";
+        error.code = 400;
+        throw error;
+    }
+    if (!helper.isValidString(id)) {
+        const error = new Error();
+        error.msg = "id must be a non-empty string";
+        error.code = 400;
+        throw error;
+    }
+    if (!ObjectId.isValid(id)) {
+        const error = new Error();
+        error.msg = "Invalid ObjectId provided";
+        error.code = 400;
+        throw error;
+    }
 
     const bandCollection = await bands();
     const band = await bandCollection.findOne({ _id: new ObjectId(id) });
-    if (!band) throw new Error("No band with that id");
+    if (!band) {
+        const error = new Error();
+        error.msg = "No band with that id";
+        error.code = 404;
+        throw error;
+    }
 
     band._id = band._id.toString();
     return band;
 };
 
 const remove = async (id) => {
-    if (!helper.exists(id)) throw new Error("No id provided");
-    if (!helper.isValidString(id))
-        throw new Error("id must be a non-empty string");
-    if (!ObjectId.isValid(id)) throw new Error("Invalid ObjectId provided");
+    if (!helper.exists(id)) {
+        const error = new Error();
+        error.msg = "No id provided";
+        error.code = 400;
+
+        throw error;
+    }
+    if (!helper.isValidString(id)) {
+        const error = new Error();
+        error.msg = "id must be a non-empty string";
+        error.code = 400;
+
+        throw error;
+    }
+    if (!ObjectId.isValid(id)) {
+        const error = new Error();
+        error.msg = "Invalid ObjectId provided";
+        error.code = 400;
+
+        throw error;
+    }
 
     const bandCollection = await bands();
     const deletionInfo = await bandCollection.findOneAndDelete({
@@ -122,7 +184,11 @@ const remove = async (id) => {
     });
 
     if (!deletionInfo.value) {
-        throw new Error(`No band with id of ${id} found.`);
+        const error = new Error();
+        error.msg = `No band with id of ${id} found.`;
+        error.code = 400;
+
+        throw error;
     }
 
     const bandName = deletionInfo.value.name;
@@ -138,10 +204,27 @@ const update = async (
     groupMembers,
     yearBandWasFormed
 ) => {
-    if (!helper.exists(id)) throw new Error("No id provided");
-    if (!helper.isValidString(id))
-        throw new Error("id must be a non-empty string");
-    if (!ObjectId.isValid(id)) throw new Error("Invalid ObjectId provided");
+    if (!helper.exists(id)) {
+        const error = new Error();
+        error.msg = "No id provided";
+        error.code = 400;
+
+        throw error;
+    }
+    if (!helper.isValidString(id)) {
+        const error = new Error();
+        error.msg = "id must be a non-empty string";
+        error.code = 400;
+
+        throw error;
+    }
+    if (!ObjectId.isValid(id)) {
+        const error = new Error();
+        error.msg = "Invalid ObjectId provided";
+        error.code = 400;
+
+        throw error;
+    }
 
     if (
         !helper.exists(
@@ -157,9 +240,11 @@ const update = async (
     }
 
     if (!helper.isValidArray(genre, groupMembers)) {
-        throw new Error(
-            "genre and groupMembers must be a valid non-empty array."
-        );
+        const error = new Error();
+        error.msg = "genre and groupMembers must be a valid non-empty array.";
+        error.code = 400;
+
+        throw error;
     }
 
     if (
@@ -171,15 +256,21 @@ const update = async (
             recordCompany
         )
     ) {
-        throw new Error(
-            "Name, website, recordCompany, all genres and all group members must be non-empty strings"
-        );
+        const error = new Error();
+        error.msg =
+            "Name, website, recordCompany, all genres and all group members must be non-empty strings";
+        error.code = 400;
+
+        throw error;
     }
 
     if (!/^http:\/\/www\.[\w-]{5,}\.com$/.test(website)) {
-        throw new Error(
-            "Website must be a valid format and have at least 5 characters in-between http://www. and .com"
-        );
+        const error = new Error();
+        error.msg =
+            "Website must be a valid format and have at least 5 characters in-between http://www. and .com";
+        error.code = 400;
+
+        throw error;
     }
 
     if (
@@ -188,9 +279,12 @@ const update = async (
         yearBandWasFormed < 1900 ||
         yearBandWasFormed > new Date().getFullYear()
     ) {
-        throw new Error(
-            "Year band was formed must be a number between 1900 and the current year (2023)"
-        );
+        const error = new Error();
+        error.msg =
+            "Year band was formed must be a number between 1900 and the current year (2023)";
+        error.code = 400;
+
+        throw error;
     }
 
     const bandCollection = await bands();
@@ -207,12 +301,22 @@ const update = async (
     };
 
     const band = await get(id);
-    if (band.name.toLowerCase().trim() === newName.toLowerCase().trim()) {
-        throw new Error("New name cannot be the same as current name");
+    if (band.name.toLowerCase().trim() === name.toLowerCase().trim()) {
+        const error = new Error();
+        error.msg = "New name cannot be the same as current name";
+        error.code = 400;
+
+        throw error;
     }
 
     const updateInfo = await bandCollection.updateOne(filter, updateDoc);
-    if (updateInfo.modifiedCount === 0) throw new Error("No band with that id");
+    if (updateInfo.modifiedCount === 0) {
+        const error = new Error();
+        error.msg = "No band with that id";
+        error.code = 404;
+
+        throw error;
+    }
 
     const updatedBand = await get(id);
     return updatedBand;

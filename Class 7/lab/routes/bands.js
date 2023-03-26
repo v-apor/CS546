@@ -3,6 +3,7 @@
 import * as bands from "../data/bands.js";
 import * as helper from "../helpers.js";
 import { Router } from "express";
+import { ObjectId } from "mongodb";
 const router = Router();
 
 router
@@ -27,13 +28,13 @@ router
                 body.yearBandWasFormed
             )
         ) {
-            throw new Error("All fields are required");
+            return res.status(400).send({ error: "All fields are required" });
         }
 
         if (!helper.isValidArray(body.genre, body.groupMembers)) {
-            throw new Error(
-                "genre and groupMembers must be a valid non-empty array."
-            );
+            return res.status(400).send({
+                error: "genre and groupMembers must be a valid non-empty array.",
+            });
         }
 
         if (
@@ -45,15 +46,15 @@ router
                 body.recordCompany
             )
         ) {
-            throw new Error(
-                "Name, website, recordCompany, all genres and all group members must be non-empty strings"
-            );
+            return res.status(400).send({
+                error: "Name, website, recordCompany, all genres and all group members must be non-empty strings",
+            });
         }
 
         if (!/^http:\/\/www\.[\w-]{5,}\.com$/.test(body.website)) {
-            throw new Error(
-                "Website must be a valid format and have at least 5 characters in-between http://www. and .com"
-            );
+            return res.status(400).send({
+                error: "Website must be a valid format and have at least 5 characters in-between http://www. and .com",
+            });
         }
 
         if (
@@ -62,45 +63,166 @@ router
             body.yearBandWasFormed < 1900 ||
             body.yearBandWasFormed > new Date().getFullYear()
         ) {
-            throw new Error(
-                "Year band was formed must be a number between 1900 and the current year (2023)"
-            );
+            return res.status(400).send({
+                error: "Year band was formed must be a number between 1900 and the current year (2023)",
+            });
         }
 
-        const newBand = await bands.create(
-            body.name,
-            body.genre,
-            body.website,
-            body.recordCompany,
-            body.groupMembers,
-            body.yearBandWasFormed
-        );
-        res.send(newBand);
+        try {
+            const newBand = await bands.create(
+                body.name,
+                body.genre,
+                body.website,
+                body.recordCompany,
+                body.groupMembers,
+                body.yearBandWasFormed
+            );
+            res.send(newBand);
+        } catch (e) {
+            res.status(e.code).send({ error: e.msg });
+        }
     });
 
 router
     .route("/:id")
     .get(async (req, res) => {
-        // console.log("ID: ", typeof req.params.id);
-        const band = await bands.get(req.params.id);
-        res.send(band);
+        const id = req.params.id;
+
+        if (!helper.exists(id)) {
+            return res.status(400).send({
+                error: "No id provided",
+            });
+        }
+        if (!helper.isValidString(id)) {
+            return res.status(400).send({
+                error: "id must be a non-empty string",
+            });
+        }
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).send({
+                error: "Invalid ObjectId provided",
+            });
+        }
+
+        try {
+            const band = await bands.get(req.params.id);
+            res.send(band);
+        } catch (e) {
+            res.status(e.code).send({ error: e.msg });
+        }
     })
     .delete(async (req, res) => {
-        const deleteResponse = await bands.remove(req.params.id);
-        res.send({ bandId: req.params.id, deleted: true });
+        const id = req.params.id;
+
+        if (!helper.exists(id)) {
+            return res.status(400).send({
+                error: "No id provided",
+            });
+        }
+        if (!helper.isValidString(id)) {
+            return res.status(400).send({
+                error: "id must be a non-empty string",
+            });
+        }
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).send({
+                error: "Invalid ObjectId provided",
+            });
+        }
+        try {
+            const deleteResponse = await bands.remove(req.params.id);
+            res.send({ bandId: req.params.id, deleted: true });
+        } catch (e) {
+            res.status(e.code).send({ error: e.msg });
+        }
     })
     .put(async (req, res) => {
         const body = req.body;
-        const updatedBand = await bands.update(
-            req.params.id,
-            body.name,
-            body.genre,
-            body.website,
-            body.recordCompany,
-            body.groupMembers,
-            body.yearBandWasFormed
-        );
-        res.send(updatedBand);
+
+        const id = req.params.id;
+
+        if (
+            !helper.exists(
+                body.name,
+                body.genre,
+                body.website,
+                body.recordCompany,
+                body.groupMembers,
+                body.yearBandWasFormed
+            )
+        ) {
+            return res.status(400).send({ error: "All fields are required" });
+        }
+
+        if (!helper.isValidArray(body.genre, body.groupMembers)) {
+            return res.status(400).send({
+                error: "genre and groupMembers must be a valid non-empty array.",
+            });
+        }
+
+        if (
+            !helper.isValidString(
+                body.name,
+                ...body.genre,
+                ...body.groupMembers,
+                body.website,
+                body.recordCompany
+            )
+        ) {
+            return res.status(400).send({
+                error: "Name, website, recordCompany, all genres and all group members must be non-empty strings",
+            });
+        }
+
+        if (!/^http:\/\/www\.[\w-]{5,}\.com$/.test(body.website)) {
+            return res.status(400).send({
+                error: "Website must be a valid format and have at least 5 characters in-between http://www. and .com",
+            });
+        }
+
+        if (
+            typeof body.yearBandWasFormed !== "number" ||
+            isNaN(body.yearBandWasFormed) ||
+            body.yearBandWasFormed < 1900 ||
+            body.yearBandWasFormed > new Date().getFullYear()
+        ) {
+            return res.status(400).send({
+                error: "Year band was formed must be a number between 1900 and the current year (2023)",
+            });
+        }
+
+        if (!helper.exists(id)) {
+            return res.status(400).send({
+                error: "No id provided",
+            });
+        }
+        if (!helper.isValidString(id)) {
+            return res.status(400).send({
+                error: "id must be a non-empty string",
+            });
+        }
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).send({
+                error: "Invalid ObjectId provided",
+            });
+        }
+        try {
+            const updatedBand = await bands.update(
+                req.params.id,
+                body.name,
+                body.genre,
+                body.website,
+                body.recordCompany,
+                body.groupMembers,
+                body.yearBandWasFormed
+            );
+            res.send(updatedBand);
+        } catch (e) {
+            res.status(e.code).send({ error: e.msg });
+        }
     });
 
 export default router;
