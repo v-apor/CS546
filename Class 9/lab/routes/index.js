@@ -6,7 +6,7 @@ const constructorMethod = (app) => {
     app.use("/", venueRoutes);
 
     app.use("*", (req, res) => {
-        res.status(404).sendFile(path.resolve("static/badRequest.html"));
+        res.status(404).render("error", {title: "Incorrect URL", error: "You've arrived at incorrect URL, please re-check"});
     });
 };
 
