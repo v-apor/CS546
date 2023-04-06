@@ -15,10 +15,25 @@ the title set as the <title> element of the HTML document and as an h1 in your d
     should also have an input with a type of submit that submits the form. The input in your form should have a name of
     searchVenueTerm.
 
-    }}
+}}
+<head>
+    <title>Venue Finder</title>
+</head>
 
-<h1>Venue Finder</h1>
-<form action="/searchvenues" method="post" id="search-form">
-    <input type="text" name="query" placeholder="Search..." />
-    <input type="submit" value="Search" />
-</form>
+<main>
+    <h1>Venue Finder</h1>
+    <p>Welcome to Venue Finder! Just search for any venue, you'll get all the
+        results.</p>
+    <form action="/searchvenues" method="post">
+        <label for="searchVenueTerm">
+            Look for venue:
+            <input
+                type="text"
+                name="searchVenueTerm"
+                id="searchVenueTerm"
+                placeholder="Enter venue here"
+            />
+        </label>
+        <input type="submit" value="Search" />
+    </form>
+</main>
