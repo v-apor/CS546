@@ -29,7 +29,11 @@ the title set as the <title> element of the HTML document and as an h1 in your d
         <h2>{{this.name}}</h2>
         <img alt="{{this.name}}" src="{{this.images.url}}">
         <br>
-        <a target="_blank" href="{{this.url}}">Venue Information on Ticketmaster</a>
+        {{#if this.url}}
+            <a target="_blank" href="{{this.url}}">Venue Information on Ticketmaster</a>
+        {{else}}
+            N/A
+        {{/if}}
         <address>Address:
             {{this.address.line1}},
             {{this.city.name}},
