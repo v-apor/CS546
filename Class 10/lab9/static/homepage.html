@@ -1,34 +1,31 @@
-<!-- 
-A header tag, with an h1 naming your site, with a title for your page. 
-A footer with your name, student ID, and any other info about yourself you wish to include
-A single div with an id of results.  
-Your page will have a form with the following:
-
-A label with a for attribute referencing your input
-A textarea element with a name and id of text_input
-A button to submit the form
- -->
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <title>Text Analyzer</title>
+        <link rel="stylesheet" href="../public/css/main.css" />
     </head>
     <body>
-        <header><h1>Text Analyzer</h1></header>
-        <div id="results"></div>
-        <form>
-            <label for="text_input">
-                Enter text:
-                <input type="text" name="text_input" id="text_input" />
-            </label>
-            <input type="submit" value="Submit" />
+        <header>
+            <h1>Text Analyzer</h1>
+        </header>
+
+        <form id="myForm">
+            <label for="text_input">Enter Text:</label>
+            <br />
+            <input type="text" name="text_input" id="text_input" />
+            <br />
+            <button type="submit">Analyze</button>
         </form>
+
+        <div id="results"></div>
+
+        <div id="error"></div>
+
         <footer>
-            <p>Apoorv Chandrakar</p>
-            <p>20015515</p>
+            <p>Created with &#x2764;, by Apoorv Chandrakar (20015515)</p>
             <p><a href="http://github.com/v-apor" target="_blank">GitHub</a></p>
         </footer>
-        <script src="/public/js/main.js"></script>
+
+        <script src="../public/js/main.js"></script>
     </body>
 </html>
