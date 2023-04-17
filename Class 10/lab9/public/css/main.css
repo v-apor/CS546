@@ -26,3 +26,7 @@ a {
     font-size: smaller;
     font-style: italic;
 }
+
+.error {
+    color: red;
+}

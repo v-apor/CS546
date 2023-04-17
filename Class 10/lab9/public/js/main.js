@@ -3,9 +3,9 @@ function getTextAnalysis(input) {
 
     result.originalInput = input;
 
-    // removing trim() as we also need to count blank space
-    // input = input.trim().toLowerCase();
-    input = input.toLowerCase();
+    // removing trim() as we also need to count blank space || Reverted as input should be trimmed
+    // input = input.toLowerCase();
+    input = input.trim().toLowerCase();
 
     result.totalLetters = input.replace(/[^a-z]/g, "").length;
 
