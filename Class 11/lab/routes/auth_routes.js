@@ -1,17 +1,24 @@
 import { Router } from "express";
 import { createUser, checkUser } from "../data/users.js";
-import myMiddleWare from "../middleware.js";
+import {
+    rootMiddleware,
+    loginMiddleware,
+    registerMiddleware,
+    protectedMiddleware,
+    adminMiddleware,
+    logoutMiddleware,
+} from "../middleware.js";
 
 const router = Router();
 
-router.route("/").get(async (req, res) => {
+router.route("/").get(rootMiddleware, async (req, res) => {
     //code here for GET THIS ROUTE SHOULD NEVER FIRE BECAUSE OF MIDDLEWARE #1 IN SPECS.
     res.send("Authentication Failure");
 });
 
 router
     .route("/register")
-    .get(async (req, res) => {
+    .get(registerMiddleware, async (req, res) => {
         res.render("register", { title: "Register" });
     })
     .post(async (req, res) => {
@@ -145,7 +152,7 @@ router
 
 router
     .route("/login")
-    .get(async (req, res) => {
+    .get(loginMiddleware, async (req, res) => {
         res.render("login", { title: "Login" });
     })
     .post(async (req, res) => {
@@ -208,31 +215,32 @@ router
         }
     });
 
-router.route("/protected").get(myMiddleWare, async (req, res) => {
-    const currentTime = new Date().toLocaleTimeString();
-    const { firstName, role } = req.user;
-
-    // console.log(firstName, currentTime, role);
-    // Render Handlebars template with user data
+router.route("/protected").get(protectedMiddleware, async (req, res) => {
     res.render("protected", {
-        title: "Protected Page",
-        firstName: firstName,
-        currentTime: currentTime,
-        role: role,
-        isAdmin: role === "admin",
+        firstName: req.session.user.firstName,
+        currentTime: new Date().toString(),
+        role: req.session.user.role,
+        isAdmin: req.session.user.role === "admin",
     });
 });
 
-router.route("/admin").get(async (req, res) => {
-    res.send("Reached Admin");
+router.route("/admin").get(adminMiddleware, async (req, res) => {
+    res.render("admin", {
+        firstName: req.session.user.firstName,
+        currentTime: new Date().toString(),
+    });
 });
 
 router.route("/error").get(async (req, res) => {
-    //code here for GET
+    res.status(500).render("error", {
+        message: "An error occurred",
+    });
 });
 
-router.route("/logout").get(async (req, res) => {
-    //code here for GET
+router.route("/logout").get(logoutMiddleware, async (req, res) => {
+    req.session.destroy();
+    res.clearCookie("AuthCookie");
+    res.render("logout", { title: "Logged Out" });
 });
 
 export default router;

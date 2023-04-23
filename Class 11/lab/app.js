@@ -57,7 +57,8 @@ import session from "express-session";
 
 app.use(
     session({
-        secret: "mysecretkey",
+        name: "AuthCookie",
+        secret: "This is a secret.. shhh don't tell anyone! But I commited it in my GitHub!!!",
         resave: false,
         saveUninitialized: true,
         cookie: {
