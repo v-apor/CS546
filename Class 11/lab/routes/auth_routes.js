@@ -12,8 +12,7 @@ import {
 const router = Router();
 
 router.route("/").get(rootMiddleware, async (req, res) => {
-    //code here for GET THIS ROUTE SHOULD NEVER FIRE BECAUSE OF MIDDLEWARE #1 IN SPECS.
-    res.send("Authentication Failure");
+    res.redirect("/error");
 });
 
 router
@@ -158,29 +157,28 @@ router
     .post(async (req, res) => {
         const { emailAddressInput, passwordInput } = req.body;
 
-        // Check if emailAddressInput and passwordInput are supplied
         if (!emailAddressInput || !passwordInput) {
             return res.status(400).render("login", {
+                title: "Login",
                 errorMessage: "Please enter both email address and password.",
             });
         }
 
-        // Check if emailAddressInput is a valid email address format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(emailAddressInput)) {
             return res.status(400).render("login", {
+                title: "Login",
                 errorMessage: "Please enter a valid email address.",
             });
         }
 
-        // Convert the email to lowercase for case-insensitive matching
         const lowercaseEmail = emailAddressInput.toLowerCase();
 
-        // Check if passwordInput meets the constraints
         const passwordRegex =
             /^(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{8,}$/;
         if (!passwordRegex.test(passwordInput)) {
             return res.status(400).render("login", {
+                title: "Login",
                 errorMessage:
                     "Please enter a valid password. It should be at least 8 characters long, contain at least one uppercase character, one number, and one special character.",
             });
@@ -188,10 +186,8 @@ router
 
         // console.log("Passing", lowercaseEmail, passwordInput);
         try {
-            // Call checkUser db function passing in the emailAddressInput and passwordInput
             const user = await checkUser(lowercaseEmail, passwordInput);
 
-            // Set the session user property
             req.session.user = {
                 firstName: user.firstName,
                 lastName: user.lastName,
@@ -200,15 +196,14 @@ router
             };
             // console.log("~~~~~~", req.session.user);
 
-            // Redirect based on the user's role
             if (user.role === "admin") {
                 res.redirect("/admin");
             } else {
                 res.redirect("/protected");
             }
         } catch (error) {
-            // Render the login screen again with an error message if the user's login is invalid
             return res.status(400).render("login", {
+                title: "Login",
                 errorMessage:
                     "Invalid email address and/or password. Please try again.",
             });
@@ -217,6 +212,7 @@ router
 
 router.route("/protected").get(protectedMiddleware, async (req, res) => {
     res.render("protected", {
+        title: "User Page",
         firstName: req.session.user.firstName,
         currentTime: new Date().toString(),
         role: req.session.user.role,
@@ -226,6 +222,7 @@ router.route("/protected").get(protectedMiddleware, async (req, res) => {
 
 router.route("/admin").get(adminMiddleware, async (req, res) => {
     res.render("admin", {
+        title: "Admin Page",
         firstName: req.session.user.firstName,
         currentTime: new Date().toString(),
     });
@@ -233,6 +230,7 @@ router.route("/admin").get(adminMiddleware, async (req, res) => {
 
 router.route("/error").get(async (req, res) => {
     res.status(500).render("error", {
+        title: "Error",
         message: "An error occurred",
     });
 });

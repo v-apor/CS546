@@ -5,7 +5,7 @@ import { loggingMiddleware } from "../middleware.js";
 const constructorMethod = (app) => {
     app.use("/", loggingMiddleware, authRoutes);
     app.use("*", (req, res) => {
-        res.send({ error: "Incorrect URL" });
+        res.redirect("/error");
     });
 };
 
