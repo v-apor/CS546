@@ -1,0 +1,33 @@
+{{!
+
+login form handlebar template
+
+}}
+
+<main>
+    <h1>Login</h1>
+    {{#if errorMessage}}
+        <p style="color: red">{{errorMessage}}</p>
+    {{/if}}
+    <p>Enter your username and password:</p>
+    <form action="/login" method="post" , id="login-form">
+        <label for="emailAddressInput">
+            Email:
+            <input
+                type="email"
+                name="emailAddressInput"
+                id="emailAddressInput"
+                placeholder="Enter email here"
+            />
+        </label>
+        <br />
+        <label for="passwordInput">
+            Password:
+            <input type="password" name="passwordInput" id="passwordInput" />
+        </label>
+        <br />
+        <input type="submit" value="Login" />
+    </form>
+    <p>Don't have an account?
+        <a href="/register">Click here to register!</a></p>
+</main>
