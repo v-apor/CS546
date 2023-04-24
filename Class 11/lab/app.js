@@ -4,6 +4,13 @@ const app = express();
 app.use(express.json());
 import exphbs from "express-handlebars";
 import session from "express-session";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const staticDir = express.static(__dirname + "/public");
+app.use("/public", staticDir);
 
 app.use(
     session({
@@ -20,6 +27,8 @@ app.use(
 import configRoutes from "./routes/index.js";
 
 import { dbConnection } from "./config/mongoConnection.js";
+
+app.use(express.static("public"));
 
 const db = await dbConnection();
 // await createUser(

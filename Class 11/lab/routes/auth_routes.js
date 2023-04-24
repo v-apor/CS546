@@ -11,9 +11,7 @@ import {
 
 const router = Router();
 
-router.route("/").get(rootMiddleware, async (req, res) => {
-    res.redirect("/error");
-});
+router.route("/").get(rootMiddleware, async (req, res) => {});
 
 router
     .route("/register")
@@ -184,7 +182,6 @@ router
             });
         }
 
-        // console.log("Passing", lowercaseEmail, passwordInput);
         try {
             const user = await checkUser(lowercaseEmail, passwordInput);
 
@@ -194,7 +191,6 @@ router
                 emailAddress: user.emailAddress,
                 role: user.role,
             };
-            // console.log("~~~~~~", req.session.user);
 
             if (user.role === "admin") {
                 res.redirect("/admin");
@@ -229,9 +225,9 @@ router.route("/admin").get(adminMiddleware, async (req, res) => {
 });
 
 router.route("/error").get(async (req, res) => {
-    res.status(500).render("error", {
+    res.status(403).render("error", {
         title: "Error",
-        message: "An error occurred",
+        message: "You do not have permission to view this page",
     });
 });
 

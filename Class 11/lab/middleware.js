@@ -42,11 +42,18 @@ function adminMiddleware(req, res, next) {
     if (!req.session || !req.session.user) {
         return res.redirect("/login");
     } else if (req.session.user.role !== "admin") {
-        return res.status(403).render("error", {
-            title: "Error",
-            message: "You do not have permission to view this page",
-        });
+        return res.redirect("/error");
     }
+    // return res.status(403).render("error", {
+    //     title: "Error",
+    //     message: "You do not have permission to view this page",
+    // });
+    // req.body.myError = {
+    //     message: "You do not have permission to view this page",
+    //     code: 403,
+    // };
+    // console.log("error", req.body.myError);
+    // return res.redirect("/error");
 
     next();
 }
@@ -59,6 +66,8 @@ function logoutMiddleware(req, res, next) {
 }
 
 function loggingMiddleware(req, res, next) {
+    // This was loggin whenever css was called and it was redirecting to "*" route, so need workaround for css pages
+
     console.log(
         `[${new Date().toUTCString()}] ${req.method} ${req.originalUrl} (${
             !!req.session && !!req.session.user
