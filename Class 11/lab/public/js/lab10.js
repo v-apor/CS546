@@ -54,19 +54,16 @@ if (registerForm) {
             "confirmPasswordInput"
         );
 
-        // Validate first name
         if (!firstNameInput.value) {
             registerErrorDiv.innerHTML = "Please enter your first name";
             return;
         }
 
-        // Validate last name
         if (!lastNameInput.value) {
             registerErrorDiv.innerHTML = "Please enter your last name";
             return;
         }
 
-        // Validate email address
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailInput.value) {
             registerErrorDiv.innerHTML = "Please enter your email address";
@@ -76,7 +73,6 @@ if (registerForm) {
             return;
         }
 
-        // Validate password
         const passwordRegex =
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         if (!passwordInput.value) {
@@ -87,7 +83,6 @@ if (registerForm) {
             return;
         }
 
-        // Validate confirm password
         if (!confirmPasswordInput.value) {
             registerErrorDiv.innerHTML = "Please confirm your password";
             return;
@@ -100,60 +95,3 @@ if (registerForm) {
     });
 }
 
-// form1.addEventListener("submit", function (event) {
-//     event.preventDefault();
-// alert("Hello");
-// errorDiv1.innerHTML = "";
-
-// const firstNameInput = document.getElementById("firstNameInput");
-// const lastNameInput = document.getElementById("lastNameInput");
-// const emailInput = document.getElementById("emailAddressInput");
-// const passwordInput = document.getElementById("passwordInput");
-// const confirmPasswordInput = document.getElementById(
-//     "confirmPasswordInput"
-// );
-
-// // Validate first name
-// if (!firstNameInput.value) {
-//     errorDiv1.innerHTML = "Please enter your first name";
-//     return;
-// }
-
-// // Validate last name
-// if (!lastNameInput.value) {
-//     errorDiv1.innerHTML = "Please enter your last name";
-//     return;
-// }
-
-// // Validate email address
-// const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-// if (!emailInput.value) {
-//     errorDiv1.innerHTML = "Please enter your email address";
-//     return;
-// } else if (!emailRegex.test(emailInput.value)) {
-//     errorDiv1.innerHTML = "Please enter a valid email address";
-//     return;
-// }
-
-// // Validate password
-// const passwordRegex =
-//     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-// if (!passwordInput.value) {
-//     errorDiv1.innerHTML = "Please enter a password";
-//     return;
-// } else if (!passwordRegex.test(passwordInput.value)) {
-//     errorDiv1.innerHTML = "Please enter a valid password";
-//     return;
-// }
-
-// // Validate confirm password
-// if (!confirmPasswordInput.value) {
-//     errorDiv1.innerHTML = "Please confirm your password";
-//     return;
-// } else if (passwordInput.value !== confirmPasswordInput.value) {
-//     errorDiv1.innerHTML = "Passwords do not match";
-//     return;
-// }
-
-// form.submit();
-// });

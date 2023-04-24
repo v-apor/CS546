@@ -1,2 +1,0 @@
-If a user is logged in, but they are not an admin user, you will redirect to /error and render a HTML error page saying that the user does not have permission to view the page, and the page must issue an HTTP status code of 403. (redirection to /error with custom message and error code)
-/error getting called everytime because of css pages
