@@ -1,11 +1,11 @@
 <main>
     <h1>Login</h1>
     {{#if errorMessage}}
-        <p style="color: red">{{errorMessage}}</p>
+        <p class="error">{{errorMessage}}</p>
     {{/if}}
 
     <p>Enter your username and password:</p>
-    <form action="/login" method="post" , id="login-form">
+    <form action="/login" method="post" id="login-form">
         <label for="emailAddressInput">
             Email:
             <input
@@ -23,8 +23,8 @@
         <br />
         <input type="submit" value="Login" />
     </form>
-    <div id="loginError"></div>
-    <p>Don't have an account?
+    <div class="error" id="loginError"></div>
+    <p class="message">Don't have an account?
         <a href="/register">Click here to register!</a></p>
     <script src="../../public/js/lab10.js"></script>
 </main>

@@ -1,7 +1,7 @@
 <main>
     <h1>Register</h1>
     {{#if errorMessage}}
-        <p style="color: red">{{errorMessage}}</p>
+        <p class="error">{{errorMessage}}</p>
     {{/if}}
     <p>Fill in the form below to create a new account:</p>
     <form action="/register" method="post" id="registration-form">
@@ -50,7 +50,7 @@
         <br />
         <input type="submit" value="Register" />
     </form>
-    <div id="registerError"></div>
-    <p>Already have an account? <a href="/login">Click here to log-in</a></p>
+    <div class="error" id="registerError"></div>
+    <p class="message">Already have an account? <a href="/login">Click here to log-in</a></p>
     <script src="../../public/js/lab10.js"></script>
 </main>
